@@ -1,0 +1,7 @@
+*.html
+*.bytecode
+*.sol
+/log
+.idea/*
+*.json
+*.pyc
