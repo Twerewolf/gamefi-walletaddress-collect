@@ -1,3 +1,6 @@
+# 用于获取合约地址的对应bscscan网页页面，保存到/data路径下，用于后续提取标识信息。
+# 不仅可用于721，20/1155同样可以直接使用
+
 import requests
 import os
 projectPath = '/home/tjw/gamefi-walletaddress-collect'
@@ -18,4 +21,4 @@ def curl_web(contractAddress):
 # print(response.text)
 
 if __name__=='__main__':
-    curl_web("0xC2342497c786AaDc2e97E04297f67012e52d5264")
+    curl_web("0x97667aeb10b6916001b5431f980c30fb8a9ce4b4")

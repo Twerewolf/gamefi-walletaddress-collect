@@ -11,6 +11,7 @@ def find1155(infile):
         if lowIdx != -1:
             print("找到'1155': ",lowIdx)
             print(line)
+            infopen.close()
             return True
             # print(line[lowIdx:lowIdx+42])
             # cleanLines.append(line[lowIdx:lowIdx+42]+'\n')

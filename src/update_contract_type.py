@@ -10,6 +10,9 @@ from src.find_721 import find721
 from src.find_1155 import find1155
 from src.curl_721 import dataPath
 from src.curl_721 import projectPath
+import src.find_20
+
+
 class PostgreSQLPipeline(object):
 
     def normal_add(self, db_creds):
@@ -177,18 +180,28 @@ class PostgreSQLPipeline(object):
     def checkTokenTypeFromHTML(self, contractAddress):
         web = projectPath + dataPath + contractAddress + ".html"
         try:
+            if(src.find_20.find20(web)):
+                print(contractAddress+"是erc20, 开始update")
+                self.update_contract_type(db_creds=self.db_creds,type='erc20',addr=contractAddress)
+                print("erc20 update完成")
+                return
             if(find721(web)):
                 # 写成721 ,上传到
                 print(contractAddress+"是erc721, 开始update")
                 self.update_contract_type(db_creds=self.db_creds,type='erc721',addr=contractAddress)
-                print("update完成")
+                print("erc721 update完成")
+                return
             if(find1155(web)):
                 # 写成1155
                 print(contractAddress+"是erc1155")
                 self.update_contract_type(db_creds=self.db_creds,type='erc1155',addr=contractAddress)
-                print("update完成")
+                print("erc1155 update完成")
+                return
             else:
-                print("不是erc721或erc1155")
+                print("不是erc20/721/1155")
+                self.update_contract_type(db_creds=self.db_creds,type='',addr=contractAddress)
+                print("update完成")
+                return
         except TimeoutError:
             print('time out error')
             exit()

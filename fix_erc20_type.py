@@ -8,7 +8,7 @@ from src.find_1155 import find1155
 from src.find_721 import find721
 
 
-# 读取每一个已获取的bscscan的网页，找到721/1155的关键信息，标识类型 
+# erc20类型从footprint获取数据为totalsupply进行判断，但部分普通合约地址拥有一些20token，会导致totalsupply 为正数导致标识错误，因此重新检查
 if __name__ == '__main__':
     pgsqlObject = PostgreSQLPipeline()
 
@@ -29,10 +29,19 @@ if __name__ == '__main__':
         if (record[0] != 'BNB Chain'):
             print(contractAddress+"不是BNB Chain项目")
             continue
-        if (record[3] == 'erc20'):
-            print(contractAddress+"已判断是erc20")
-            continue
-        print("当前获取网页合约地址:"+contractAddress)
-        curl_web(contractAddress)  # 获得contract的web到/data目录下
-        # 根据获取的html直接判断类型，然后累计10个之后更新信息
-        pgsqlObject.checkTokenTypeFromHTML(contractAddress)
+        if (record[3] == 'erc20' or record[3]==''):
+            print(contractAddress+"已判断是erc20,重新检查")
+            print("当前获取网页合约地址:"+contractAddress)
+            curl_web(contractAddress)  # 获得contract的web到/data目录下
+            # 根据获取的html直接判断类型，然后累计10个之后更新信息
+            pgsqlObject.checkTokenTypeFromHTML(contractAddress)
+        else:
+            print("其他类型，跳过")
+        # if (record[3] == 'erc721'):
+        #     print(contractAddress+"已判断是erc721")
+        #     continue
+        # if (record[3] == 'erc1155'):
+        #     print(contractAddress+"已判断是erc1155")
+        #     continue
+
+       
