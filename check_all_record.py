@@ -33,6 +33,6 @@ if __name__ == '__main__':
             print(contractAddress+"已判断是erc20")
             continue
         print("当前获取网页合约地址:"+contractAddress)
-        curl_web(contractAddress)  # 获得contract的web到/data目录下
+        # curl_web(contractAddress)  # 获得contract的web到/data目录下
         # 根据获取的html直接判断类型，然后累计10个之后更新信息
-        pgsqlObject.checkTokenTypeFromHTML(contractAddress)
+        # pgsqlObject.checkTokenTypeFromHTML(contractAddress)
